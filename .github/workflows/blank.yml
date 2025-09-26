@@ -1,0 +1,95 @@
+import React, { useState } from "react";
+
+const AvatarGame = () => {
+  const [progress, setProgress] = useState(0);
+  const [items, setItems] = useState({
+    boots: false,
+    chestplate: false,
+    sword: false,
+    helmet: false,
+  });
+
+  // Function to simulate completing a task (increase progress by 25%)
+  const completeTask = () => {
+    let newProgress = Math.min(progress + 25, 100);
+    setProgress(newProgress);
+
+    // Unlock gear at certain milestones
+    if (newProgress >= 25) setItems((prev) => ({ ...prev, boots: true }));
+    if (newProgress >= 50) setItems((prev) => ({ ...prev, chestplate: true }));
+    if (newProgress >= 75) setItems((prev) => ({ ...prev, sword: true }));
+    if (newProgress >= 100) setItems((prev) => ({ ...prev, helmet: true }));
+  };
+
+  return (
+    <div className="flex flex-col items-center p-6">
+      <h1 className="text-2xl font-bold mb-4">⚔️ QuestLink Avatar Demo</h1>
+
+      {/* Avatar with equipment overlays */}
+      <div className="relative w-64 h-[400px] border-4 border-gray-800 rounded-lg bg-gray-200">
+        {/* Base avatar */}
+        <img
+          src="/avatar.png" // your avatar image in public/avatar.png
+          alt="Hero Avatar"
+          className="absolute top-0 left-0 w-64 h-auto"
+        />
+
+        {/* Boots */}
+        {items.boots && (
+          <img
+            src="/boots.png"
+            alt="Boots"
+            className="absolute bottom-0 left-20 w-24 h-auto"
+          />
+        )}
+
+        {/* Chestplate */}
+        {items.chestplate && (
+          <img
+            src="/chestplate.png"
+            alt="Chestplate"
+            className="absolute top-40 left-10 w-44 h-auto"
+          />
+        )}
+
+        {/* Sword */}
+        {items.sword && (
+          <img
+            src="/sword.png"
+            alt="Sword"
+            className="absolute bottom-10 left-44 w-20 h-auto rotate-[20deg]"
+          />
+        )}
+
+        {/* Helmet */}
+        {items.helmet && (
+          <img
+            src="/helmet.png"
+            alt="Helmet"
+            className="absolute top-0 left-16 w-32 h-auto"
+          />
+        )}
+      </div>
+
+      {/* Progress bar */}
+      <div className="w-64 bg-gray-300 rounded-full h-4 mt-6">
+        <div
+          className="bg-green-600 h-4 rounded-full"
+          style={{ width: `${progress}%` }}
+        ></div>
+      </div>
+      <p className="mt-2 font-semibold">{progress}% Progress</p>
+
+      {/* Button to simulate completing a quest step */}
+      <button
+        onClick={completeTask}
+        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded shadow"
+      >
+        ✅ Complete Task
+      </button>
+    </div>
+  );
+};
+
+export default AvatarGame;
+
